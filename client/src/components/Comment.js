@@ -11,7 +11,7 @@ import {
   updateComment,
 } from "../services/comments"
 import { CommentForm } from "./CommentForm"
-import { useUser } from "../hooks/useUser"
+
 
 const dateFormatter = new Intl.DateTimeFormat(undefined, {
   dateStyle: "medium",
@@ -42,11 +42,13 @@ export function Comment({
   const deleteCommentFn = useAsyncFn(deleteComment)
   const toggleCommentLikeFn = useAsyncFn(toggleCommentLike)
   const childComments = getReplies(id)
-  const currentUser = useUser()
+  const currentUser = {
+    id: "3aa85d0f-ee23-45a7-9824-13ad72cd1d2b"
+  } 
 
   function onCommentReply(message) {
     return createCommentFn
-      .execute({ postId: post.id, message, parentId: id })
+      .execute({ postId: post.id, message, parentId: id})
       .then(comment => {
         setIsReplying(false)
         createLocalComment(comment)
@@ -109,6 +111,7 @@ export function Comment({
             Icon={FaReply}
             aria-label={isReplying ? "Cancel Reply" : "Reply"}
           />
+          {console.log(user.id + " " + currentUser.id)}
           {user.id === currentUser.id && (
             <>
               <IconBtn

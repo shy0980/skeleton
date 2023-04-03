@@ -1,9 +1,12 @@
 import { makeRequest } from "./makeRequest"
 
-export function createComment({ postId, message, parentId }) {
+const userId = "3aa85d0f-ee23-45a7-9824-13ad72cd1d2b"
+
+export function createComment({ postId, message, parentId=null}) {
+  console.log(postId + " " + message + " " + parentId + " " + userId)
   return makeRequest(`posts/${postId}/comments`, {
     method: "POST",
-    data: { message, parentId },
+    data: { message, parentId, userId },
   })
 }
 
@@ -20,8 +23,9 @@ export function deleteComment({ postId, id }) {
   })
 }
 
-export function toggleCommentLike({ id, postId }) {
+export function toggleCommentLike({ id, postId, userId="3aa85d0f-ee23-45a7-9824-13ad72cd1d2b" }) {
   return makeRequest(`/posts/${postId}/comments/${id}/toggleLike`, {
     method: "POST",
+    data : { userId }
   })
 }

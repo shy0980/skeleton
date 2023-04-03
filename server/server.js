@@ -36,12 +36,11 @@ const sendMail = (to, subject, message) =>{
 
 }
 
-sendMail('laughygamer@gmail.com', 'Server b00ted', 'Server is b00ted at ' + date_time);
+//sendMail('laughygamer@gmail.com', 'Server b00ted', 'Server is b00ted at ' + date_time);
 
 
 const app = fastify()
 app.register(sensible)
-app.register(cookie, { secret: process.env.COOKIE_SECRET })
 app.register(cors, {
   origin: process.env.CLIENT_URL,
   credentials: true,
@@ -85,7 +84,7 @@ app.get("/posts", async (req, res) => {
 })
 
 // to get a single post
-app.get("/posts/:id", async (req, res) => {
+app.get("/posts/:id/:userId", async (req, res) => {
   return await commitToDb(
     prisma.post
       .findUnique({
@@ -107,7 +106,7 @@ app.get("/posts/:id", async (req, res) => {
       .then(async post => {
         const likes = await prisma.like.findMany({
           where: {
-            userId: req.cookies.userId,
+            userId: req.params.userId,
             commentId: { in: post.comments.map(comment => comment.id) },
           },
         })

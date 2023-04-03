@@ -4,6 +4,6 @@ export function getPosts() {
   return makeRequest("/posts")
 }
 
-export function getPost(id) {
-  return makeRequest(`/posts/${id}`)
+export function getPost(id, userId) {
+  return makeRequest(`/posts/${id}/${userId}`)
 }
