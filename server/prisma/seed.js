@@ -4,19 +4,43 @@ const prisma = new PrismaClient()
 async function seed() {
   await prisma.post.deleteMany()
   await prisma.user.deleteMany()
-  const kyle = await prisma.user.create({ data: { name: "Kyle" } })
-  const sally = await prisma.user.create({ data: { name: "Sally" } })
+  const kyle = await prisma.user.create({ data: { 
+    name: "Kyle",
+    email: "laughygamer@gmail.com",
+    password: "laughy0980",
+    etc1: 2,
+    etc2: "Gaming",
+    etc3: "boing",
+    verified: false,
+  } })
+  const sally = await prisma.user.create({ data: { 
+    name: "Sally", 
+    email: "shantanu0980@gmail.com",
+    password: "shantanu0980",
+    etc1: 3,
+    etc2: "Cricket",
+    etc3: "Chandigard",
+    verified: true,
+  } })
 
   const post1 = await prisma.post.create({
     data: {
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer placerat urna vel ante volutpat, ut elementum mi placerat. Phasellus varius nisi a nisl interdum, at ultrices ex tincidunt. Duis nec nunc vel urna ullamcorper eleifend ac id dolor. Phasellus vitae tortor ac metus laoreet rutrum. Aenean condimentum consequat elit, ut placerat massa mattis vitae. Vivamus dictum faucibus massa, eget euismod turpis pretium a. Aliquam rutrum rhoncus mi, eu tincidunt mauris placerat nec. Nunc sagittis libero sed facilisis suscipit. Curabitur nisi lacus, ullamcorper eu maximus quis, malesuada sit amet nisi. Proin dignissim, lacus vitae mattis fermentum, dui dolor feugiat turpis, ut euismod libero purus eget dui.",
       title: "Post 1",
+      atr1: "www.google.com",
+      atr2: "JonnyWalker",
+      atr3: "Bisleri",
+      atr4: "Donkey",
     },
   })
   const post2 = await prisma.post.create({
     data: {
       body: "Proin ut sollicitudin lacus. Mauris blandit, turpis in efficitur lobortis, lectus lacus dictum ipsum, vel pretium ex lacus id mauris. Aenean id nisi eget tortor viverra volutpat sagittis sit amet risus. Sed malesuada lectus eget metus sollicitudin porttitor. Fusce at sagittis ligula. Pellentesque vel sapien nulla. Morbi at purus sed nibh mollis ornare sed non magna. Nunc euismod ex purus, nec laoreet magna iaculis quis. Mauris non venenatis elit. Curabitur varius lectus nisl, vitae tempus felis tristique sit amet.",
       title: "Post 2",
+      atr1: "www.bing.com",
+      atr2: "JohnWick",
+      atr3: "Manusana",
+      atr4: "Giraffe",
     },
   })
 

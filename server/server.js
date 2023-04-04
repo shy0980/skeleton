@@ -66,6 +66,12 @@ app.get("/users", async(req, res)=>{
       select:{
         id:true,
         name:true,
+        email: true,
+        password: true,
+        etc1: true,
+        etc2: true,
+        etc3: true,
+        verified: true,
       },
   }))
 })
@@ -78,6 +84,10 @@ app.get("/posts", async (req, res) => {
         id: true,
         title: true,
         body: true,
+        atr1: true,
+        atr2: true,
+        atr3: true,
+        atr4: true,
       },
     })
   )
@@ -226,7 +236,38 @@ app.post("/posts/:postId/comments/:commentId/toggleLike", async (req, res) => {
   }
 })
 
+// to signup and send email verification send details in body
+app.post("/signup/:email", async(req, res)=>{
+  const createUser = await prisma.user.create({ 
+    data: { 
+      name: req.body.name, 
+      email: req.params.email,
+      password: req.body.password,
+      etc1: req.body.etc1,
+      etc2: req.body.etc2,
+      etc3: req.body.etc3,
+      verified: false,
+  } })
+  const u_email = req.params.email
+  const u_name = req.params.name
+  const link = " http://localhost:3001/verify/" + createUser.id
+  sendMail(''+u_email, 'Verify you email ' + u_name , "Click on the link to verify your email : " + link)
+})
 
+// verify email
+app.get("/verify/:userId", async(req, res)=>{
+  return await commitToDb( prisma.user.update({ 
+    where: {
+      id : req.params.userId,
+    },
+    data: { 
+      verified: true,
+    }, 
+    select: {
+      name: true,
+    }
+  }))
+})
 
 async function commitToDb(promise) {
   const [error, data] = await app.to(promise)

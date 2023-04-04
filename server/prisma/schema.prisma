@@ -14,14 +14,26 @@ model Post {
   id       String    @id @default(uuid())
   title    String
   body     String
+  atr1     String
+  atr2     String
+  atr3     String
+  atr4     String
   comments Comment[]
+  Intrest  Intrest[]
 }
 
 model User {
   id       String    @id @default(uuid())
   name     String
+  email    String
+  password String
+  etc1     Int
+  etc2     String
+  etc3     String
+  verified Boolean
   comments Comment[]
   likes    Like[]
+  Intrest  Intrest[]
 }
 
 model Comment {
@@ -46,4 +58,13 @@ model Like {
   commentId String
 
   @@id([userId, commentId])
+}
+
+model Intrest {
+  user   User   @relation(fields: [userId], references: [id])
+  post   Post   @relation(fields: [postId], references: [id])
+  userId String
+  postId String
+
+  @@id([userId, postId])
 }
