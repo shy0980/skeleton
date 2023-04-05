@@ -1,6 +1,6 @@
 import { makeRequest } from "./makeRequest"
 
-const userId = "3aa85d0f-ee23-45a7-9824-13ad72cd1d2b"
+const userId = "f1935b9c-1167-4f6e-a7c0-eed84d501ddd"
 
 export function createComment({ postId, message, parentId=null}) {
   console.log(postId + " " + message + " " + parentId + " " + userId)
@@ -23,7 +23,7 @@ export function deleteComment({ postId, id }) {
   })
 }
 
-export function toggleCommentLike({ id, postId, userId="3aa85d0f-ee23-45a7-9824-13ad72cd1d2b" }) {
+export function toggleCommentLike({ id, postId }) {
   return makeRequest(`/posts/${postId}/comments/${id}/toggleLike`, {
     method: "POST",
     data : { userId }

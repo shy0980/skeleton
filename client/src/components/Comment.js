@@ -43,7 +43,7 @@ export function Comment({
   const toggleCommentLikeFn = useAsyncFn(toggleCommentLike)
   const childComments = getReplies(id)
   const currentUser = {
-    id: "3aa85d0f-ee23-45a7-9824-13ad72cd1d2b"
+    id: "f1935b9c-1167-4f6e-a7c0-eed84d501ddd"
   } 
 
   function onCommentReply(message) {

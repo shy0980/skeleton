@@ -5,7 +5,6 @@ import { getPosts } from "../services/posts"
 export function PostList() {
   const { loading, error, value: posts } = useAsync(getPosts)
 
-
   if (loading) return <h1>Loading</h1>
   if (error) return <h1 className="error-msg">"Error at componenets/PostList.js"</h1>
 

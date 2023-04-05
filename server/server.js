@@ -269,6 +269,21 @@ app.get("/verify/:userId", async(req, res)=>{
   }))
 })
 
+app.post("/login/user", async(req,res)=>{
+  return await prisma.user.findFirst({
+    where:{
+      email: req.body.email,
+      password: req.body.password
+    },
+    select:{
+      id: true,
+      name: true,
+      verified: true,
+      email: true,
+    }
+  })
+})
+
 async function commitToDb(promise) {
   const [error, data] = await app.to(promise)
   if (error) return app.httpErrors.internalServerError(error.message)

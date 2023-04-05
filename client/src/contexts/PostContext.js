@@ -10,7 +10,7 @@ export function usePost() {
 }
 
 export function PostProvider({ children }) {
-  const { userId } = "3aa85d0f-ee23-45a7-9824-13ad72cd1d2b"
+  const { userId } = "f1935b9c-1167-4f6e-a7c0-eed84d501ddd"
   const { id } = useParams()
   const { loading, error, value: post } = useAsync(() => getPost(id, userId), [id, userId])
   const [comments, setComments] = useState([])
