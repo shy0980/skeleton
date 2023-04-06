@@ -20,6 +20,8 @@ model Post {
   atr4     String
   comments Comment[]
   Intrest  Intrest[]
+  Upvote   Upvote[]
+  Message  Message[]
 }
 
 model User {
@@ -34,6 +36,8 @@ model User {
   comments Comment[]
   likes    Like[]
   Intrest  Intrest[]
+  Upvote   Upvote[]
+  Message  Message[]
 }
 
 model Comment {
@@ -58,6 +62,26 @@ model Like {
   commentId String
 
   @@id([userId, commentId])
+}
+
+model Upvote {
+  user   User   @relation(fields: [userId], references: [id])
+  post   Post   @relation(fields: [postId], references: [id])
+  userId String
+  postId String
+
+  @@id([userId, postId])
+}
+
+model Message {
+  message String
+  mode    Int
+  user    User   @relation(fields: [userId], references: [id])
+  post    Post   @relation(fields: [postId], references: [id])
+  userId  String
+  postId  String
+
+  @@id([userId, postId])
 }
 
 model Intrest {

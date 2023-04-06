@@ -88,6 +88,11 @@ app.get("/posts", async (req, res) => {
         atr2: true,
         atr3: true,
         atr4: true,
+        _count:{
+          select:{
+            Upvote: true,
+          }
+        }
       },
     })
   )
@@ -281,6 +286,69 @@ app.post("/login/user", async(req,res)=>{
       verified: true,
       email: true,
     }
+  })
+})
+
+app.post("/signup/post", async(req,res)=>{
+  return await commitToDb(prisma.post.create({ 
+    data: { 
+      title: req.body.title,
+      body: req.body.body,
+      atr1: req.body.atr1,
+      atr2: req.body.atr2,
+      atr3: req.body.atr3,
+      atr4: req.body.atr4,
+  }}))
+})
+
+// to toogle upvote return true is upvote added else false;
+app.post("/toggleupvote/:postId/:userId", async(req, res)=>{
+  const data = {
+    postId: req.params.postId,
+    userId: req.params.userId,
+  }
+
+  const upvote = await prisma.upvote.findUnique({
+    where: { userId_postId: data },
+  })
+
+  if (upvote == null) {
+    return await commitToDb(prisma.upvote.create({ data })).then(() => {
+      return { addUpvote: true }
+    })
+  } else {
+    return await commitToDb(
+      prisma.upvote.delete({ where: { userId_postId: data } })
+    ).then(() => {
+      return { addUpvote: false }
+    })
+  }
+})
+
+// display post a user upvoted
+app.post("/upvotedposts/:userId", async(req, res)=>{
+  return prisma.upvote.findMany({
+      where:{
+        userId: req.params.userId,
+      },
+      select:{
+        post: {
+          select:{
+            id: true,
+            title: true,
+            body: true,
+            atr1: true,
+            atr2: true,
+            atr3: true,
+            atr4: true,
+            _count: {
+              select:{
+                Upvote: true,
+              }
+            }
+          }
+        }
+      }
   })
 })
 
