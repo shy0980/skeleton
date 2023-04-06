@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import { useAsyncFn } from '../hooks/useAsync';
@@ -12,15 +12,6 @@ export function UserLogin() {
 
     const LoginVerificationFn = useAsyncFn(LoginUser)
 
-    const [userID, setUserID] = useState(null)
-      useEffect(()=>{
-        if(userID!==null){
-            Cookies.set('userId', userID, {sameSite: 'None'})
-            const goToHome = () => navigate(`/${userID}/main`)
-            goToHome()
-        }
-      },[userID])
-
     const HandleLogin=()=> {
         const details = LoginVerificationFn
                 .execute({username, password})
@@ -29,7 +20,7 @@ export function UserLogin() {
                       window.alert("enter valid details")
                     } else {
                         if(temp.verified){
-                            Cookies.set('userId', userID, {sameSite: 'None'})
+                            Cookies.set('userId', temp.id, {sameSite: 'strict'})
                             window.alert("Logged in successfully")
                             const goToHome = () => navigate(`/`)
                             goToHome()

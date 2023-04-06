@@ -4,24 +4,30 @@ import { PostList } from "./components/PostLists"
 import { PostProvider } from "./contexts/PostContext"
 import { UserLogin } from "./user/userLogin"
 import { NavBar } from "./navBar/navbar"
-import { UserSignOut } from "./user/userSignout"
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
     <div className="container">
-      <NavBar/>
       <Routes>
-        <Route path="/" element={<PostList />} />
+        <Route path="/" element={
+          <>
+            <NavBar/>
+            <PostList />
+          </>
+        } />
         <Route
           path="/posts/:id"
           element={
-            <PostProvider>
-              <Post />
-            </PostProvider>
+            <>
+              <NavBar/>
+              <PostProvider>
+                <Post />
+              </PostProvider>
+            </>  
           }
         />
         <Route path="/Login" element={<UserLogin/>} /> 
-        <Route path="/Signout" element={<UserSignOut/>}/>
       </Routes>
     </div>
   )

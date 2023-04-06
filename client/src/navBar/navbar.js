@@ -1,11 +1,11 @@
-import Cookies from 'js-cookie'
-import { useState , useEffect } from 'react'
-import { Link } from 'react'
+import Cookies from 'js-cookie';
+import { LoginNav } from './LoginNav';
+import { SignoutNav } from './SignoutNav';
 
 export function NavBar() {
-    const userId = Cookies.get('userId')
-            return <>
-                <h1>THis is navbar</h1>
-            </>
-
+    const userID = Cookies.get('userId');
+    return <>
+        {userID===undefined && <LoginNav/>}
+        {userID!==undefined && <SignoutNav/>}
+    </>
 }
