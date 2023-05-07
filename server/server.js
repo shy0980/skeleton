@@ -88,6 +88,7 @@ app.get("/posts", async (req, res) => {
         atr2: true,
         atr3: true,
         atr4: true,
+        token: true,
         _count:{
           select:{
             Upvote: true,
@@ -146,7 +147,7 @@ app.post("/posts/:id/comments", async (req, res) => {
   if (req.body.message === "" || req.body.message == null) {
     return res.send(app.httpErrors.badRequest("Message is required"))
   }
-
+  console.log(req.body.userId+" "+req.body.message+" "+req.body.parentId+" "+req.params.id);
   return await commitToDb(
     prisma.comment
       .create({
@@ -243,6 +244,7 @@ app.post("/posts/:postId/comments/:commentId/toggleLike", async (req, res) => {
 
 // to signup and send email verification send details in body
 app.post("/signup/:email", async(req, res)=>{
+  console.log("Signup request from "+req.params.email)
   const createUser = await prisma.user.create({ 
     data: { 
       name: req.body.name, 
@@ -274,6 +276,7 @@ app.get("/verify/:userId", async(req, res)=>{
   }))
 })
 
+// login for user
 app.post("/login/user", async(req,res)=>{
   return await prisma.user.findFirst({
     where:{
@@ -289,6 +292,7 @@ app.post("/login/user", async(req,res)=>{
   })
 })
 
+// signup or just post a post homie
 app.post("/signup/post", async(req,res)=>{
   return await commitToDb(prisma.post.create({ 
     data: { 
@@ -351,6 +355,108 @@ app.post("/upvotedposts/:userId", async(req, res)=>{
       }
   })
 })
+
+
+// <---- MSG Endpoints are TESTED and Backend seems to work fine --->
+// to send a message to user/invester at a cost of -1 token
+// body should constain msg, postId, userId mainly
+// primary key is userId, postId so only one msg is possible
+app.post("/sendmsg/:postId/:userId", async(req, res)=>{
+
+    const msg = await commitToDb(prisma.message.findFirst({
+      where:{
+        userId: req.params.userId,
+        postId: req.params.postId,
+      }
+    }))
+
+    if(msg !== null) {
+      return "Msg already delivered"
+    }
+    else{
+   const temp = await commitToDb(prisma.message.create({
+      data: {
+        message: req.body.message,
+        userId: req.params.userId,
+        postId: req.params.postId,
+        mode: 1,
+      }
+   }))
+
+   const temp2 = await commitToDb(prisma.post.update({
+    where: {
+      id: req.params.postId,
+    },
+    data: {
+      token: {
+        decrement: 1,
+      }
+    }
+   }))
+
+   return temp
+  }
+   
+})
+
+// to get msg given to particular user
+app.get("/getMsgUser/:userId", async(req, res)=>{
+  return await commitToDb(prisma.message.findMany({
+    where:{
+      userId: req.params.userId,
+    },
+    select: {
+      message: true,
+      user: true,
+      post: true,
+    }
+  }))
+})
+
+// to get msg given by particular post
+app.get("/getMsgPost/:postId", async(req, res)=>{
+  return await commitToDb(prisma.message.findMany({
+    where:{
+      postId: req.params.postId,
+    },
+    select: {
+      message: true,
+      user: true,
+      post: true,
+    }
+  }))
+})
+
+// for experimenting and checking returns all message sent
+app.get("/msg", async(req, res)=>{
+  return await commitToDb(prisma.message.findMany({
+    select:{
+      userId: true,
+      postId: true,
+      message: true,
+    }
+  }))
+})
+
+/*
+  User/Post login/signup done
+  Upvote system done works fine
+  <----->
+  Nested Comment section works fine (sometimes needs a refresh after login)
+  <----->
+  Message + token system (if a person mesasges someone his token gets decreased by one)
+
+
+  -->Need to be done
+  Dynamic search (search through posts aka startups)
+  //shys part done rest improving front end left
+
+  <------>
+  Chat Idea dropped as interfacing with comment section + not needed 
+  + token system violated
+  <------>
+
+*/
 
 async function commitToDb(promise) {
   const [error, data] = await app.to(promise)

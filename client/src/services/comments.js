@@ -1,6 +1,7 @@
 import { makeRequest } from "./makeRequest"
+import Cookies from "js-cookie"
 
-const userId = "f1935b9c-1167-4f6e-a7c0-eed84d501ddd"
+const userId = Cookies.get('userId')
 
 export function createComment({ postId, message, parentId=null}) {
   console.log(postId + " " + message + " " + parentId + " " + userId)

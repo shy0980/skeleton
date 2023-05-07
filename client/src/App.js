@@ -5,6 +5,7 @@ import { PostProvider } from "./contexts/PostContext"
 import { UserLogin } from "./user/userLogin"
 import { NavBar } from "./navBar/navbar"
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import { UserSignup } from "./user/userSignup"
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           }
         />
         <Route path="/Login" element={<UserLogin/>} /> 
+        <Route path="/Signup" element={<UserSignup/>}/>
       </Routes>
     </div>
   )

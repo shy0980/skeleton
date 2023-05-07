@@ -18,6 +18,7 @@ model Post {
   atr2     String
   atr3     String
   atr4     String
+  token    Int       @default(10)
   comments Comment[]
   Intrest  Intrest[]
   Upvote   Upvote[]
