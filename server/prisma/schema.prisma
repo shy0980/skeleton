@@ -11,18 +11,19 @@ datasource db {
 }
 
 model Post {
-  id       String    @id @default(uuid())
-  title    String
-  body     String
-  atr1     String
-  atr2     String
-  atr3     String
-  atr4     String
-  token    Int       @default(10)
-  comments Comment[]
-  Intrest  Intrest[]
-  Upvote   Upvote[]
-  Message  Message[]
+  id        String    @id @default(uuid())
+  title     String
+  body      String
+  atr1      String
+  atr2      String
+  atr3      String
+  atr4      String
+  token     Int       @default(10)
+  createdAt DateTime  @default(now())
+  comments  Comment[]
+  Intrest   Intrest[]
+  Upvote    Upvote[]
+  Message   Message[]
 }
 
 model User {

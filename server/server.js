@@ -438,6 +438,59 @@ app.get("/msg", async(req, res)=>{
   }))
 })
 
+// query route for posts aka startups boi
+app.get("/posts/filter", async(req, res)=>{
+  const q1 = req.query.title || ''
+  const q2 = req.query.body || ''
+  const q3 = req.query.atr1 || ''
+  const q4 = req.query.atr2 || ''
+  const q5 = req.query.atr3 || ''
+  const q6 = req.query.atr4 || ''
+  const sort = req.query.sort || 'desc'
+
+  return await commitToDb(prisma.post.findMany({
+    where:{
+      title:{
+        contains: q1,
+        mode: 'insensitive',
+      },
+      body:{
+        contains: q2,
+        mode: 'insensitive',
+      },
+      atr1: {
+        contains: q3,
+        mode: 'insensitive',
+      },
+      atr2: {
+        contains: q4,
+        mode: 'insensitive',
+      },
+      atr3:{
+        contains: q5,
+        mode: 'insensitive',
+      },
+      atr4: {
+        contains: q6,
+        mode: 'insensitive',
+      },
+    },
+    orderBy:{
+      createdAt: sort
+    },
+    select:{
+      id: true,
+      title: true,
+      body: true,
+      atr1: true,
+      atr2: true,
+      atr3: true,
+      atr4: true,
+      token: true,
+    },
+  }))
+
+})
 /*
   User/Post login/signup done
   Upvote system done works fine
@@ -445,10 +498,9 @@ app.get("/msg", async(req, res)=>{
   Nested Comment section works fine (sometimes needs a refresh after login)
   <----->
   Message + token system (if a person mesasges someone his token gets decreased by one)
-
+  Dynamic search (search through posts aka startups)
 
   -->Need to be done
-  Dynamic search (search through posts aka startups)
   //shys part done rest improving front end left
 
   <------>
