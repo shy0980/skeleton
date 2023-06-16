@@ -1,5 +1,17 @@
 import { makeRequest } from "./makeRequest"
 
+export function getMessages({userId}) {
+  return makeRequest(`getMsgUser/${userId}`)
+}
+
+export function userUpvotedPosts({userId}) {
+  return makeRequest(`/upvotedposts/${userId}`)
+}
+
+export function getUser( { userId} ) {
+  return makeRequest(`/getUser/${userId}`)
+}
+
 export function LoginUser({ email, password}) {
   return makeRequest(`/login/user`, {
     method: "POST",

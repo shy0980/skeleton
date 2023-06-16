@@ -6,6 +6,10 @@ import { UserLogin } from "./user/userLogin"
 import { NavBar } from "./navBar/navbar"
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { UserSignup } from "./user/userSignup"
+import { UserProfile } from "./user/userDashboard"
+import { PostLogin } from "./postPoster/postLogin"
+import { PostSignup } from "./postPoster/postSignup"
+import { PostProfile } from "./postPoster/postDashboard"
 
 function App() {
   return (
@@ -30,6 +34,10 @@ function App() {
         />
         <Route path="/Login" element={<UserLogin/>} /> 
         <Route path="/Signup" element={<UserSignup/>}/>
+        <Route path="/Profile" element={<UserProfile/>}/>
+        <Route path="/PostLogin" element={<PostLogin/>}/>
+        <Route path="/PostSignup" element={<PostSignup/>}/>
+        <Route path="/PostProfile" element={<PostProfile/>}/>
       </Routes>
     </div>
   )

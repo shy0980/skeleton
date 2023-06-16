@@ -99,6 +99,21 @@ app.get("/posts", async (req, res) => {
   )
 })
 
+app.get("/getUser/:userId", async(req,res)=>{
+  return await commitToDb(prisma.user.findUnique({
+    where:{
+      id : req.params.userId,
+    },
+    select:{
+      name: true,
+      email: true,
+      etc1: true,
+      etc2: true,
+      etc3: true,
+    }
+  }))
+})
+
 // to get a single post
 app.get("/posts/:id/:userId", async (req, res) => {
   return await commitToDb(
@@ -292,6 +307,18 @@ app.post("/login/user", async(req,res)=>{
   })
 })
 
+app.post("/login/post", async(req, res)=>{
+  return await commitToDb(prisma.post.findFirst({
+    where:{
+      atr1: req.body.username,
+      atr2: req.body.password,
+    },
+    select:{
+      id: true,
+    }
+  }))
+})
+
 // signup or just post a post homie
 app.post("/signup/post", async(req,res)=>{
   return await commitToDb(prisma.post.create({ 
@@ -330,7 +357,7 @@ app.post("/toggleupvote/:postId/:userId", async(req, res)=>{
 })
 
 // display post a user upvoted
-app.post("/upvotedposts/:userId", async(req, res)=>{
+app.get("/upvotedposts/:userId", async(req, res)=>{
   return prisma.upvote.findMany({
       where:{
         userId: req.params.userId,

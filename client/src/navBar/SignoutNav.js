@@ -19,6 +19,7 @@ export function SignoutNav(){
     <ul class="nav">
             <li><a href="/">Home</a></li>
             <li><a href="/">About Us</a></li>
+            <li><a href="/Profile">Dashboard</a></li>
             <li><button type="button" onClick={SignoutUser}>Signout</button></li>
     </ul>
     </>

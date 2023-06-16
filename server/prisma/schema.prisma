@@ -10,6 +10,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// atr1 -> kinda email atr2-> password
+
 model Post {
   id        String    @id @default(uuid())
   title     String
