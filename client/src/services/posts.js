@@ -1,5 +1,10 @@
 import { makeRequest } from "./makeRequest"
 
+
+export function getAllUsers() {
+  return makeRequest(`/users`)
+}
+
 export function putPost({title, body, atr1, atr2, atr3, atr4}) {
   console.log(title + atr1 + atr2 + atr3 + atr4 )
   return makeRequest(`/signup/post`, {
@@ -24,6 +29,10 @@ export function SendMsg({postId, userId, message}) {
     method: "POST",
     data: {message}
   })
+}
+
+export function getDetailsPost({postId}) {
+  return makeRequest(`/getPostDetails/${postId}`)
 }
 
 export function getPosts() {

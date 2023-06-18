@@ -1,3 +1,4 @@
+import Cookies from "js-cookie"
 import { useState } from "react"
 
 export function CommentForm({
@@ -7,7 +8,10 @@ export function CommentForm({
   autoFocus = false,
   initialValue = "",
 }) {
+
+
   const [message, setMessage] = useState(initialValue)
+  const userId = Cookies.get(`userId`)
 
   function handleSubmit(e) {
     e.preventDefault()

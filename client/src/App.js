@@ -10,6 +10,7 @@ import { UserProfile } from "./user/userDashboard"
 import { PostLogin } from "./postPoster/postLogin"
 import { PostSignup } from "./postPoster/postSignup"
 import { PostProfile } from "./postPoster/postDashboard"
+import { SendMsgPost } from "./postPoster/sendMsg"
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
         <Route path="/PostLogin" element={<PostLogin/>}/>
         <Route path="/PostSignup" element={<PostSignup/>}/>
         <Route path="/PostProfile" element={<PostProfile/>}/>
+        <Route path="/PostSendMsg" element={<SendMsgPost/>}/>
       </Routes>
     </div>
   )

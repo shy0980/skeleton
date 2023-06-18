@@ -1,5 +1,9 @@
 import { makeRequest } from "./makeRequest"
 
+export function ToggleUpvote({postId, userId}) {
+  return makeRequest(`/toggleupvote/${postId}/${userId}`)
+}
+
 export function getMessages({userId}) {
   return makeRequest(`getMsgUser/${userId}`)
 }

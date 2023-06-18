@@ -93,7 +93,7 @@ app.get("/posts", async (req, res) => {
           select:{
             Upvote: true,
           }
-        }
+        },
       },
     })
   )
@@ -123,6 +123,11 @@ app.get("/posts/:id/:userId", async (req, res) => {
         select: {
           body: true,
           title: true,
+          _count: {
+            select: {
+              Upvote:true,
+            }
+          },
           comments: {
             orderBy: {
               createdAt: "desc",
@@ -333,7 +338,7 @@ app.post("/signup/post", async(req,res)=>{
 })
 
 // to toogle upvote return true is upvote added else false;
-app.post("/toggleupvote/:postId/:userId", async(req, res)=>{
+app.get("/toggleupvote/:postId/:userId", async(req, res)=>{
   const data = {
     postId: req.params.postId,
     userId: req.params.userId,
@@ -383,6 +388,22 @@ app.get("/upvotedposts/:userId", async(req, res)=>{
   })
 })
 
+app.get("/getPostDetails/:postId",async(req,res)=>{
+  return await commitToDb(prisma.post.findUnique({
+    where:{
+      id: req.params.postId,
+    },
+    select:{
+      title: true,
+      body: true,
+      atr1: true,
+      atr3: true,
+      atr4: true,
+      token: true,
+      createdAt: true,
+    }
+  }))
+})
 
 // <---- MSG Endpoints are TESTED and Backend seems to work fine --->
 // to send a message to user/invester at a cost of -1 token
@@ -398,7 +419,7 @@ app.post("/sendmsg/:postId/:userId", async(req, res)=>{
     }))
 
     if(msg !== null) {
-      return "Msg already delivered"
+      return null
     }
     else{
    const temp = await commitToDb(prisma.message.create({

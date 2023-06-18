@@ -13,6 +13,7 @@ export function PostList() {
       <h1 key={post.id}>
         <Link to={`/posts/${post.id}`}>{post.title}</Link>
         <p>{post.body}</p>
+        <p>Upvotes: {post._count.Upvote}</p>
       </h1>
     )
   })
